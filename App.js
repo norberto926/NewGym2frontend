@@ -8,6 +8,7 @@ import WorkoutDetails from './screens/WorkoutHistoryStack/WorkoutDetails';
 import WorkoutTemplateList from './screens/HomeStack/WorkoutTemplateList';
 import NewWorkout from './screens/HomeStack/NewWorkout';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import Login from './screens/Login';
 
 const HomeStack = createNativeStackNavigator();
 
@@ -36,6 +37,21 @@ function WorkoutHistoryStackScreen() {
 
 }
 
+function MainScreen() {
+  return (
+    <HomeMenu.Navigator screenOptions={{
+      headerShown: false,
+      tabBarActiveTintColor: "#B49654",
+      tabBarStyle:{
+        backgroundColor: "#342D45"
+      }
+    }}>
+      <HomeMenu.Screen name="HomeStack" component={HomeStackScreen} />
+      <HomeMenu.Screen name="WorkoutHistoryStack" component={WorkoutHistoryStackScreen} />
+    </HomeMenu.Navigator>
+  )
+}
+
 
 const HomeMenu = createBottomTabNavigator()
 
@@ -49,16 +65,8 @@ export const Layout = () => {
   <NavigationContainer>
     <AuthStack.Navigator>
     {authState?.authenticated ? (
-          <HomeMenu.Navigator screenOptions={{
-            headerShown: false,
-            tabBarActiveTintColor: "#B49654",
-            tabBarStyle:{
-              backgroundColor: "#342D45"
-            }
-          }}>
-            <HomeMenu.Screen name="HomeStack" component={HomeStackScreen} />
-            <HomeMenu.Screen name="WorkoutHistoryStack" component={WorkoutHistoryStackScreen} />
-          </HomeMenu.Navigator>
+      <AuthStack.Screen name="home" component={MainScreen}>
+      </AuthStack.Screen>
     ) : (
       <AuthStack.Screen name="Login" component={Login}></AuthStack.Screen>
 

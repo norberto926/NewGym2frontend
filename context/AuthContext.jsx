@@ -15,20 +15,19 @@ export const AuthProvider = ({children}) => {
         token: null,
         authenticated: null
     })
-    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-}
 
 useEffect(() => {
     const loadToken = async () => {
         const token = await SecureStore.getItemAsync(TOKEN_KEY)
         console.log("stored", token)
-    }
+
 
     if (token) {
         setAuthState({
             token: token,
             authenticated: true
         })
+    }
     }
     loadToken()
 }, [])
@@ -43,14 +42,16 @@ const register = async (email, password, re_password) => {
 
 const login = async (email, password) => {
     try {
-        const result = await axios.post("https://newgym2backend.onrender.com/jwt/create", {email, password})
+        const result = await axios.post("https://newgym2backend.onrender.com/auth/jwt/create", {email, password})
 
         setAuthState({
-            token: result.access,
+            token: result.data.access,
             authenticated: true
         })
 
-        await SecureStore.setItemAsync(TOKEN_KEY, result.access)
+        console.log(result.data.access)
+
+        await SecureStore.setItemAsync(TOKEN_KEY, result.data.access)
 
         return result
     } catch(e) {
@@ -75,3 +76,5 @@ const value = {
 };
 
 return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+
+}

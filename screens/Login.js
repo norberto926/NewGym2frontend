@@ -1,6 +1,7 @@
 import React from 'react'
 import {View, Text, TextInput, StyleSheet, Button, Image} from 'react-native'
 import { useAuth } from '../context/AuthContext'
+import { useState } from 'react'
 
 const Login = () => {
 
@@ -32,11 +33,24 @@ const Login = () => {
     return (
         <View style={StyleSheet.container}>
             <View style={StyleSheet.form}>
-                <TextInput style={StyleSheet.input} placeholder="Email" onChangeText={(text)}></TextInput>
-                <TextInput style={StyleSheet.input} placeholder="Password" secureTextEntry={true} onChangeText={}></TextInput>
+                <TextInput style={StyleSheet.input} placeholder="Email" onChangeText={(text) => setEmail(text)}></TextInput>
+                <TextInput style={StyleSheet.input} placeholder="Password" secureTextEntry={true} onChangeText={(text) => setPassword(text)}></TextInput>
+                <Button onPress={login} title="Sign in"/>
             </View>
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    form:{
+        gap: 10,
+        width: '60%'
+    },
+    input: {
+        height: 44,
+        borderWidth: 1,
+        borderRadius: 4,
+
+    }})
 
 export default Login
